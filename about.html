@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Coding Partner - The SnarkLintProtocol Manifesto</title>
+    <meta name="description" content="Discover the origins, philosophy, and architectural manifesto behind Coding Partner and our proprietary SnarkLintProtocol engine.">
+    
+    <style>
+        /* CSS VARIABLES - Consistent Purplish Dark & Neon Theme */
+        :root {
+            --bg-base: #0B0514;
+            --bg-card: #1C0F33;
+            --bg-card-hover: #29154D;
+            
+            --primary: #9D4EDD;
+            --danger: #FF0055;
+            --cyan: #00F0FF;
+            --green: #00FF66;
+            --yellow: #FFD700;
+            
+            --text-main: #F3E8FF;
+            --text-muted: #B39DDB;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* RESET & BASE */
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.8;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.07), transparent 30%),
+                radial-gradient(circle at 90% 70%, rgba(0, 240, 255, 0.05), transparent 30%),
+                radial-gradient(circle at 50% 90%, rgba(255, 0, 85, 0.04), transparent 35%);
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+
+        /* NAVIGATION & DROPDOWN */
+        nav {
+            background: rgba(11, 5, 20, 0.95);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            padding: 1rem 0;
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 800; }
+        .logo span { color: var(--danger); }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { font-weight: 500; color: var(--text-muted); transition: 0.3s; }
+        .nav-links a:hover { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .dropdown-toggle:hover { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--bg-card);
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1100;
+            margin-top: 0.5rem;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-menu a:hover { background-color: var(--bg-card-hover); color: var(--cyan); }
+        .dropdown:hover .dropdown-menu { display: block; }
+
+        /* HEADER / HERO */
+        .page-header {
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(157, 78, 221, 0.15);
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            padding: 0.35rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .page-header h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--text-main), var(--danger), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* SECTION STYLING */
+        section { padding: 4rem 0; }
+        .section-header { text-align: center; margin-bottom: 3.5rem; }
+        .section-header h2 { font-size: 2.5rem; color: white; margin-bottom: 0.8rem; }
+        .section-header span { color: var(--primary); }
+        .section-header p { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
+
+        /* PROSE CONTENT BOX */
+        .prose-block {
+            background-color: var(--bg-card);
+            border: 1px solid #3d236b;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .prose-block h3 {
+            font-size: 1.8rem;
+            color: var(--cyan);
+            margin-bottom: 1.2rem;
+        }
+        .prose-block p {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+        .prose-block p:last-child { margin-bottom: 0; }
+        .prose-block strong { color: var(--yellow); }
+
+        /* MULTI-CARD GRID */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3.5rem;
+        }
+        .about-card {
+            background-color: var(--bg-card);
+            border-radius: 14px;
+            padding: 2.2rem;
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .about-card:hover {
+            transform: translateY(-8px);
+            background-color: var(--bg-card-hover);
+        }
+        .about-card.pink { border-color: var(--danger); }
+        .about-card.cyan { border-color: var(--cyan); }
+        .about-card.green { border-color: var(--green); }
+        .about-card.yellow { border-color: var(--yellow); }
+        .about-card.purple { border-color: var(--primary); }
+
+        .about-card h4 {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 0.8rem;
+        }
+        .about-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* TIMELINE STYLES */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin: 2rem 0 4rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--danger), var(--primary), var(--cyan));
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-left: 50px;
+            margin-bottom: 2.5rem;
+            background: var(--bg-card);
+            padding: 1.8rem;
+            border-radius: 12px;
+            border: 1px solid #3d236b;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 25px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+        }
+        .timeline-item h4 { font-size: 1.3rem; color: var(--cyan); margin-bottom: 0.5rem; }
+        .timeline-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* CALLOUT BANNER */
+        .callout-banner {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(255, 0, 85, 0.2));
+            border: 2px dashed var(--danger);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+        .callout-banner h3 { font-size: 2rem; color: white; margin-bottom: 1rem; }
+        .callout-banner p { color: var(--text-muted); font-size: 1.15rem; max-width: 800px; margin: 0 auto; }
+
+        /* FAQ ACCORDION */
+        .faq-section { max-width: 850px; margin: 0 auto 4rem; }
+        details {
+            background-color: var(--bg-card);
+            margin-bottom: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid #3d236b;
+        }
+        summary {
+            padding: 1.3rem;
+            font-size: 1.15rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        details p { padding: 0 1.3rem 1.3rem; color: var(--text-muted); font-size: 1rem; }
+
+        /* FOOTER */
+        footer {
+            background-color: #05020A;
+            padding: 5rem 0 2rem;
+            border-top: 1px solid #2a1548;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .footer-col h4 { margin-bottom: 1.5rem; color: var(--text-main); font-size: 1.2rem; }
+        .footer-col a { display: block; margin-bottom: 0.8rem; color: var(--text-muted); transition: 0.2s; }
+        .footer-col a:hover { color: var(--cyan); padding-left: 5px; }
+        .copyright { text-align: center; color: #6b5a8e; font-size: 0.9rem; border-top: 1px solid #1c0f33; padding-top: 2rem; }
+
+        /* SCROLL TO TOP */
+        #scrollBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION WITH DROPDOWN -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Coding<span>Partner</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#roaster">Roast Code</a>
+                
+                <div class="dropdown">
+                    <span class="dropdown-toggle">All Tools ▾</span>
+                    <div class="dropdown-menu">
+                        <a href="index.html#roaster">Sassy Code Roaster</a>
+                        <a href="git-excuse-generator.html">Git Excuse Generator</a>
+                        <a href="regex-destructor.html">Regex Destructor</a>
+                        <a href="div-centering-simulator.html">Div Centering Lab</a>
+                        <a href="variable-name-critic.html">Variable Name Critic</a>
+                        <a href="works-on-my-machine-cert.html">Works On My Machine Cert</a>
+                    </div>
+                </div>
+
+                <a href="about.html" style="color: var(--cyan);">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER / HERO -->
+    <header class="page-header container">
+        <span class="badge">Architectural Manifesto</span>
+        <h1>Behind the Sassy Roaster</h1>
+        <p>A rigorous inspection into why soft linter warnings failed modern software engineering, and why the SnarkLintProtocol was engineered to enforce clean architecture through uncompromising feedback.</p>
+    </header>
+
+    <main class="container">
+
+        <!-- SECTION 1: THE FOUNDATIONAL CRISIS -->
+        <section>
+            <div class="section-header">
+                <h2>The <span>Origin</span> Crisis</h2>
+                <p>How boilerplate overload and passive static analysis generated an epidemic of fragile codebases.</p>
+            </div>
+
+            <div class="prose-block">
+                <h3>The Era of Gentle Feedback is Over</h3>
+                <p>For more than a decade, traditional code analysis utilities treated syntax defects as polite suggestions. Developers grew accustomed to overlooking soft yellow squiggly underlines. Hundreds of warnings sat unattended across terminal logs, buried under the false security that as long as the compiler emitted an executable artifact, the system was viable.</p>
+                <p>This false sense of architectural hygiene resulted in unmaintainable legacy codebases characterized by <strong>leaked lexical scopes</strong>, cascading CSS anti-patterns, deeply nested loops, and catastrophic exception swallowing. Software teams began spending over 60% of their operational cycles refactoring superficial bugs that should never have passed local development environments.</p>
+                <p>We realized that modern software engineering didn't require another generic syntax formatter with five hundred configurable flags. It demanded an opinionated, unyielding evaluator that prioritizes engineering discipline over fragile developer egos. That imperative gave rise to the <strong>SnarkLintProtocol</strong>.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="about-card pink">
+                    <h4>The Fallacy of 'Works for Now'</h4>
+                    <p>Writing provisional code with the promise of future refactoring is a debt that compounds exponentially. The SnarkLintProtocol flags short-term architectural shortcuts before they metastasize into technical debt.</p>
+                </div>
+                <div class="about-card cyan">
+                    <h4>The Cognitive Toll of Bad Naming</h4>
+                    <p>Identifiers such as `data`, `obj`, and `tempVar` force teammates to read surrounding implementations just to understand data contracts. Clear, expressive semantics should be mandatory, not optional.</p>
+                </div>
+                <div class="about-card green">
+                    <h4>The Illusion of Green Builds</h4>
+                    <p>A passing automated test suite often hides brittle internal logic. Code quality is not merely the absence of compile-time exceptions; it is the presence of readable, scalable structure.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE SNARKLINTPROTOCOL CORE SPECIFICATION -->
+        <section>
+            <div class="section-header">
+                <h2>The <span>SnarkLintProtocol</span> Engine</h2>
+                <p>A deep architectural overview of our browser-bound syntax evaluation system.</p>
+            </div>
+
+            <div class="prose-block">
+                <h3>Zero Latency, In-Memory Auditing</h3>
+                <p>The core tenet of the <strong>SnarkLintProtocol</strong> is absolute isolation. Traditional developer tool suites frequently mandate continuous telemetry pipelines, broadcasting internal corporate code repositories to external server farms for algorithmic processing.</p>
+                <p>We rejected this paradigm. The SnarkLintProtocol executes strictly inside client-side browser runtime heaps. The lexical tokenization, regex evaluations, semantic checks, and resulting snarky critiques occur entirely in volatile device memory without transmitting an HTTP byte across the public internet.</p>
+                <p>By coupling deterministic pattern matching with psychological shock value, the SnarkLintProtocol instills lasting neural pathways toward writing self-documenting, performant, and resilient code.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="about-card yellow">
+                    <h4>Client-Side Isolation</h4>
+                    <p>No backend databases, no telemetry streams, and zero persistent code storage. Your questionable snippets never touch our infrastructure.</p>
+                </div>
+                <div class="about-card purple">
+                    <h4>Algorithmic Tough Love</h4>
+                    <p>Critiques are calibrated to disrupt habitual bad practices. Emotional impact accelerates pattern retention far faster than passive warnings.</p>
+                </div>
+                <div class="about-card cyan">
+                    <h4>Standardized Sarcasm Index</h4>
+                    <p>Every anti-pattern is cross-referenced with our proprietary Snark Matrix, ensuring maximum precision in identifying fragile coding habits.</p>
+                </div>
+                <div class="about-card pink">
+                    <h4>Micro-Benchmark Speed</h4>
+                    <p>Because the engine requires zero network trips, the entire syntax parsing lifecycle completes in sub-millisecond execution envelopes.</p>
+                </div>
+                <div class="about-card green">
+                    <h4>Aesthetic Resilience</h4>
+                    <p>Designed in deep purplish slate with calibrated contrast ratios to prevent retinal fatigue during nocturnal incident debugging sessions.</p>
+                </div>
+                <div class="about-card yellow">
+                    <h4>Language Agnostic</h4>
+                    <p>Whether examining JavaScript closures, CSS specificity battles, or HTML layout hierarchies, the engine evaluates fundamental principles of clean engineering.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EVOLUTION TIMELINE -->
+        <section>
+            <div class="section-header">
+                <h2>The <span>Chronology</span> of Tough Love</h2>
+                <p>The iterative milestones that forged the Coding Partner platform into what it is today.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Phase I: The Standup Breaking Point</h4>
+                    <p>After observing a senior developer spend three hours debugging an issue caused by an unannounced global variable overwrite, our initial proof-of-concept script was created to roast scoping blunders in internal chat channels.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase II: Codification of the SnarkLintProtocol</h4>
+                    <p>We formalized heuristic rules targeting legacy declarations, CSS sledgehammers, and empty exception handlers. The initial ruleset was consolidated into a standardized, zero-dependency browser execution model.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase III: The Multi-Tool Expansion</h4>
+                    <p>Recognizing that bad coding practices extend across multiple disciplines, we engineered dedicated companion apps including the Git Excuse Generator, Regex Destructor, and Div Centering Lab.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase IV: Production Hardening (2026)</h4>
+                    <p>Deployment of the complete coding-partner.online environment, featuring dedicated responsive routing, pure CSS dropdown architectures, and comprehensive dark-mode performance tuning.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PILLARS OF EXCELLENCE -->
+        <section>
+            <div class="section-header">
+                <h2>Our Six <span>Philosophical</span> Pillars</h2>
+                <p>Core engineering standards guiding every line of code executed on this domain.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="about-card pink">
+                    <h4>1. Readability Precedes Cleverness</h4>
+                    <p>Writing one-line cryptographic expressions that save three characters while confounding future reviewers is an anti-pattern. Code is read ten times more often than it is written.</p>
+                </div>
+                <div class="about-card cyan">
+                    <h4>2. Explicit Scoping Over Magic</h4>
+                    <p>Globals, implicit coercion, and loose equality are relics of early language instability. Every variable must have a visible boundary and lifecycle.</p>
+                </div>
+                <div class="about-card green">
+                    <h4>3. Respect the Rendering Cascade</h4>
+                    <p>Using brute-force CSS declarations is an admission of defeated hierarchy. Build structured selector trees rather than fighting the stylesheet.</p>
+                </div>
+                <div class="about-card yellow">
+                    <h4>4. Exceptions Demand Handling</h4>
+                    <p>An uncaught error that crashes the runtime is bad, but an empty catch block that silently eats errors is catastrophic. Systems must fail loudly and informatively.</p>
+                </div>
+                <div class="about-card purple">
+                    <h4>5. Lightweight Delivery</h4>
+                    <p>Web applications do not require 40MB bundles to render simple text and logic. Pure semantic HTML and focused CSS outperform bloated abstractions every single day.</p>
+                </div>
+                <div class="about-card pink">
+                    <h4>6. Accountability Through Reality</h4>
+                    <p>Acknowledge bad code, laugh at the absurdity of software bugs, fix the architecture, and move forward without taking syntax critiques personally.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CALLOUT -->
+        <div class="callout-banner">
+            <h3>Ready to Experience the Protocol Directly?</h3>
+            <p>Paste your most suspicious function, CSS selector, or loops into our engine and discover exactly what the SnarkLintProtocol thinks of your implementation.</p>
+            <a href="index.html#roaster" style="display: inline-block; margin-top: 1.5rem; background: var(--danger); color: white; padding: 1rem 2.5rem; border-radius: 8px; font-weight: bold;">Return to the Roaster</a>
+        </div>
+
+        <!-- FREQUENTLY ASKED QUESTIONS -->
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Manifesto <span>FAQ</span></h2>
+                <p>Answers to recurring technical and philosophical inquiries.</p>
+            </div>
+
+            <details>
+                <summary>Is the SnarkLintProtocol affiliated with any corporate standards body?</summary>
+                <p>No. The SnarkLintProtocol is an independent open philosophy created by cynical engineers for engineers. It exists beyond bureaucratic committee consensus to deliver immediate, candid utility.</p>
+            </details>
+            <details>
+                <summary>Why do you host these tools without third-party frameworks?</summary>
+                <p>Because simplicity yields resilience. By crafting coding-partner.online using clean semantic HTML and modular CSS, page load times remain virtually instantaneous, providing maximum availability across every device profile.</p>
+            </details>
+            <details>
+                <summary>How can I propose new critique patterns for the engine?</summary>
+                <p>You can visit our Contact page and submit your syntax patterns or recurring bad habits directly to our review pipeline.</p>
+            </details>
+            <details>
+                <summary>Can this platform be used for beginner learning?</summary>
+                <p>Yes. Although our tone is intentionally sharp and direct, the lessons underpinning each roast target foundational errors that every programmer encounters when transitioning from amateur scripts to production-grade software.</p>
+            </details>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 style="color: var(--danger); font-size: 1.3rem;">Coding Partner</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">The developer companion engineered to purge bad practices through strict algorithmic scrutiny.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Direct Tools Suite</h4>
+                    <a href="index.html#roaster">Sassy Code Roaster</a>
+                    <a href="git-excuse-generator.html">Git Excuse Generator</a>
+                    <a href="regex-destructor.html">Regex Destructor</a>
+                    <a href="div-centering-simulator.html">Div Centering Lab</a>
+                    <a href="variable-name-critic.html">Variable Name Critic</a>
+                    <a href="works-on-my-machine-cert.html">Works on My Machine Cert</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About & Manifesto</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="disclaimer.html">Emotional Disclaimer</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 coding-partner.online. Built with the SnarkLintProtocol. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button id="scrollBtn" title="Back to Top">↑</button>
+
+    <script>
+        const scrollBtn = document.getElementById("scrollBtn");
+        window.onscroll = () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollBtn.style.display = "flex";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        };
+        scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    </script>
+</body>
+</html>

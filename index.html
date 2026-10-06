@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%231C0F33' stroke='%2300F0FF' stroke-width='6'/><text x='50' y='68' font-family='system-ui, sans-serif' font-size='48' font-weight='900' fill='%23FF0055' text-anchor='middle'>CP</text></svg>">
+    <meta name="google-site-verification" content="G_ROlmIaCGP4EboRd4nQQoag7qyDuh6blBj411DfFLw" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sassy Code Roaster | Coding Partner - Powered by SnarkLintProtocol</title>
+    <meta name="description" content="Home of the Sassy Code Roaster powered by the exclusive SnarkLintProtocol. We roast bad code and save production.">
+    
+    <style>
+        /* CSS VARIABLES - Dark, Purplish & Neon Theme */
+        :root {
+            --bg-base: #0B0514;
+            --bg-card: #1C0F33;
+            --bg-card-hover: #29154D;
+            
+            --primary: #9D4EDD;
+            --danger: #FF0055;
+            --cyan: #00F0FF;
+            --green: #00FF66;
+            --yellow: #FFD700;
+            
+            --text-main: #F3E8FF;
+            --text-muted: #B39DDB;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* RESET & BASE */
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(157, 78, 221, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05), transparent 25%);
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        /* ANIMATIONS */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px var(--primary); }
+            50% { box-shadow: 0 0 30px var(--danger), 0 0 15px var(--primary); }
+            100% { box-shadow: 0 0 10px var(--primary); }
+        }
+        @keyframes gradient-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TOP ANNOUNCEMENT BAR */
+        .top-bar {
+            background: linear-gradient(90deg, var(--primary), var(--danger));
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            animation: gradient-text 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        /* NAVIGATION & DROPDOWN */
+        nav {
+            background: rgba(11, 5, 20, 0.95);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            padding: 1rem 0;
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 800; }
+        .logo span { color: var(--danger); }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { font-weight: 500; color: var(--text-muted); transition: 0.3s; }
+        .nav-links a:hover { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+
+        /* DROPDOWN MENU */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .dropdown-toggle:hover {
+            color: var(--cyan);
+            text-shadow: 0 0 8px var(--cyan);
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--bg-card);
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1100;
+            margin-top: 0.5rem;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-card-hover);
+            color: var(--cyan);
+            text-shadow: none;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            animation: slide-in 0.2s ease forwards;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 10rem 0 8rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(3.2rem, 7vw, 5.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--text-main), var(--danger), var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text 5s linear infinite;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        .hero .highlight { color: var(--cyan); font-weight: bold; text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+        .btn-main {
+            background: var(--danger);
+            color: white;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 900;
+            border-radius: 50px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse-glow 2s infinite;
+            transition: transform 0.3s;
+        }
+        .btn-main:hover { transform: scale(1.05); }
+
+        /* SECTION TITLES */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .section-title span { color: var(--primary); }
+
+        /* THE ROASTER UI */
+        .roaster-section { padding: 5rem 0 8rem; }
+        .roaster-ui {
+            background-color: rgba(28, 15, 51, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 15px 50px rgba(157, 78, 221, 0.2);
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+        .roaster-ui h2 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--danger); }
+        textarea {
+            width: 100%;
+            height: 280px;
+            background-color: #07030D;
+            color: var(--green);
+            border: 2px solid #3d236b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.05rem;
+            resize: vertical;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        .btn-roast {
+            background: linear-gradient(45deg, var(--danger), var(--primary));
+            color: white;
+            border: none;
+            padding: 1.2rem 4rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
+        }
+        .btn-roast:hover { transform: translateY(-3px) scale(1.02); }
+        #roast-output {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: #07030D;
+            border-left: 5px solid var(--danger);
+            border-radius: 8px;
+            font-size: 1.25rem;
+            display: none;
+            color: var(--text-main);
+            animation: slide-in 0.5s ease forwards;
+            text-align: left;
+        }
+
+        /* STEPS SECTION */
+        .steps-section { padding: 4rem 0 8rem; background-color: rgba(28, 15, 51, 0.4); }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .step-box {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        .step-num {
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(157, 78, 221, 0.2);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+        .step-box h3 { color: var(--cyan); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 2rem; }
+
+        /* COLORFUL FEATURE CARDS */
+        .grid-section { padding: 4rem 0 8rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background-color: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card:nth-child(1) { border-color: var(--danger); }
+        .card:nth-child(2) { border-color: var(--cyan); }
+        .card:nth-child(3) { border-color: var(--green); }
+        .card:nth-child(4) { border-color: var(--yellow); }
+        .card:nth-child(5) { border-color: var(--primary); }
+        .card:nth-child(6) { border-color: var(--danger); }
+        
+        .card:nth-child(1):hover { box-shadow: 0 10px 30px rgba(255, 0, 85, 0.2); }
+        .card:nth-child(2):hover { box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2); }
+        .card:nth-child(3):hover { box-shadow: 0 10px 30px rgba(0, 255, 102, 0.2); }
+        .card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: white; }
+        .card p { color: var(--text-muted); font-size: 1.05rem; }
+
+        /* ALL TOOLS MEGA GRID */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        .tool-card {
+            background: linear-gradient(145deg, var(--bg-card), #140a24);
+            border: 1px solid #3d236b;
+            padding: 2.2rem;
+            border-radius: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .tool-card h3 { color: var(--cyan); margin-bottom: 0.8rem; font-size: 1.4rem; }
+        .tool-badge {
+            background: rgba(157, 78, 221, 0.2);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid var(--primary);
+        }
+        .btn-tool {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            width: 100%;
+        }
+        .btn-tool:hover { background: var(--primary); color: white; }
+
+        /* WALL OF TEARS */
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            font-style: italic;
+            border-left: 5px solid var(--danger);
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-author { margin-top: 1rem; font-weight: bold; color: var(--cyan); font-style: normal; }
+
+        /* FAQ */
+        .faq-section { max-width: 900px; margin: 0 auto 8rem; }
+        details {
+            background-color: var(--bg-card);
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            border: 1px solid #3d236b;
+            overflow: hidden;
+        }
+        summary {
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-main);
+            outline: none;
+        }
+        summary:hover { background-color: var(--bg-card-hover); }
+        details p { padding: 0 1.5rem 1.5rem; color: var(--text-muted); }
+
+        /* FOOTER */
+        footer {
+            background-color: #05020A;
+            padding: 5rem 0 2rem;
+            border-top: 1px solid #2a1548;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .footer-col h4 { margin-bottom: 1.5rem; color: var(--text-main); font-size: 1.2rem; }
+        .footer-col a { display: block; margin-bottom: 0.8rem; color: var(--text-muted); transition: 0.2s; }
+        .footer-col a:hover { color: var(--cyan); padding-left: 5px; }
+        .copyright { text-align: center; color: #6b5a8e; font-size: 0.9rem; border-top: 1px solid #1c0f33; padding-top: 2rem; }
+
+        /* SCROLL TO TOP */
+        #scrollBtn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+            z-index: 1000;
+            transition: 0.3s;
+        }
+        #scrollBtn:hover { transform: translateY(-5px); background: #ff3377; }
+    </style>
+</head>
+<body>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="top-bar">
+        🔥 THE SASSY CODE ROASTER IS LIVE! POWERED BY THE EXCLUSIVE SNARKLINTPROTOCOL 🔥
+    </div>
+
+    <!-- NAVIGATION WITH DROPDOWN -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Sassy<span>Code Roaster</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#roaster">Roast Code</a>
+                <a href="#features">Features</a>
+                
+                <!-- ALL TOOLS DROPDOWN -->
+                <div class="dropdown">
+                    <span class="dropdown-toggle">All Tools ▾</span>
+                    <div class="dropdown-menu">
+                        <a href="#roaster">Sassy Code Roaster</a>
+                        <a href="git-excuse-generator.html">Git Excuse Generator</a>
+                        <a href="regex-destructor.html">Regex Destructor</a>
+                        <a href="div-centering-simulator.html">Div Centering Lab</a>
+                        <a href="variable-name-critic.html">Variable Name Critic</a>
+                        <a href="works-on-my-machine-cert.html">Works On My Machine Cert</a>
+                    </div>
+                </div>
+
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Your Code Sucks.<br>Let’s Fix It.</h1>
+            <p>Welcome to the ultimate Sassy Code Roaster. Experience brutal honesty and lightning-fast syntax destruction powered entirely by our revolutionary <span class="highlight">SnarkLintProtocol</span>.</p>
+            <a href="#roaster" class="btn-main">Roast My Code Now</a>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="steps-section">
+        <div class="container">
+            <h2 class="section-title">How <span>SnarkLintProtocol</span> Works</h2>
+            <div class="steps-grid">
+                <div class="step-box">
+                    <div class="step-num">1</div>
+                    <h3>Paste Your Mess</h3>
+                    <p>Drop your sloppy HTML, bloated CSS, or chaotic JavaScript into our secure, browser-only engine.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-num">2</div>
+                    <h3>Engine Analyzes</h3>
+                    <p>The SnarkLintProtocol calculates exactly how many bad decisions you made in real-time.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-num">3</div>
+                    <h3>Cry & Learn</h3>
+                    <p>Read your roast, rethink your career choices, and ultimately become a vastly superior developer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE ROASTER TOOL -->
+    <section id="roaster" class="roaster-section">
+        <div class="container">
+            <div class="roaster-ui">
+                <h2>The Sassy Code Roaster</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.1rem;">Your code never leaves your browser. Your shame remains entirely local.</p>
+                <textarea id="codeInput" placeholder="<!-- Drop your code here. Do not hold back. -->
+function calculateBonus() {
+    var payout = 1000;
+    console.log(payout);
+}"></textarea>
+                <button class="btn-roast" onclick="roastCode()">ANALYZE MY CODE</button>
+                <div id="roast-output"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY WE ROAST (FEATURES GRID) -->
+    <section id="features" class="grid-section container">
+        <h2 class="section-title">Why Developers Fear Us</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Savage Accuracy</h3>
+                <p>The SnarkLintProtocol doesn't just find errors; it finds the emotional baggage in your code structure.</p>
+            </div>
+            <div class="card">
+                <h3>Absolute Privacy</h3>
+                <p>We do not store your code. We don't want your messy scripts clogging up our pristine cloud servers.</p>
+            </div>
+            <div class="card">
+                <h3>Multi-Language Support</h3>
+                <p>React, Vanilla JS, CSS, HTML, TypeScript. If you can type it poorly, we can roast it beautifully.</p>
+            </div>
+            <div class="card">
+                <h3>Zero Latency</h3>
+                <p>Calculations happen instantly on the client side. No waiting around to have your feelings hurt.</p>
+            </div>
+            <div class="card">
+                <h3>Builds Character</h3>
+                <p>Sugar-coated tutorials make developers fragile. The Sassy Code Roaster forges senior engineers in fire.</p>
+            </div>
+            <div class="card">
+                <h3>No Account Needed</h3>
+                <p>No login walls, no credit cards, no email harvesting. Just show up, get audited, and improve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL TOOLS MEGA GRID (DIRECT LINKS TO STANDALONE PAGES) -->
+    <section id="tools" class="grid-section container" style="background-color: rgba(28, 15, 51, 0.3); padding: 5rem 3rem; border-radius: 20px;">
+        <h2 class="section-title">The Complete <span>Partner Toolkit</span></h2>
+        <div class="tools-grid">
+            
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">Flagship</span>
+                    <h3>The Sassy Roaster</h3>
+                    <p>Paste code, receive pain. The primary syntax evaluator powered by SnarkLintProtocol.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='#roaster'">Launch Roaster</button>
+            </div>
+
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">Social Alibi</span>
+                    <h3>Git Excuse Generator</h3>
+                    <p>Generate highly technical, passive-aggressive commit messages to blame DevOps or cosmic rays.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='git-excuse-generator.html'">Launch Generator</button>
+            </div>
+
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">Pattern Parser</span>
+                    <h3>Regex Destructor</h3>
+                    <p>Test your regex while discovering why your complex pattern should just be an if-statement.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='regex-destructor.html'">Launch Destructor</button>
+            </div>
+
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">CSS Arena</span>
+                    <h3>Div Centering Lab</h3>
+                    <p>A safe interactive playground to test flexbox and grid alignment techniques visually.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='div-centering-simulator.html'">Enter Lab</button>
+            </div>
+
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">Clean Code</span>
+                    <h3>Variable Name Critic</h3>
+                    <p>Audit variable identifiers like 'temp2' and receive strict algorithmic critiques.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='variable-name-critic.html'">Launch Critic</button>
+            </div>
+
+            <div class="tool-card">
+                <div>
+                    <span class="tool-badge">Legal Exoneration</span>
+                    <h3>"Works on My Machine" Cert</h3>
+                    <p>Generate an official compliance certificate to deny production culpability to your team.</p>
+                </div>
+                <button class="btn-tool" onclick="window.location.href='works-on-my-machine-cert.html'">Generate Cert</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WALL OF TEARS -->
+    <section class="container" style="padding: 6rem 0;">
+        <h2 class="section-title">The Wall of Tears</h2>
+        <div style="column-count: 2; column-gap: 2rem;">
+            <div class="testimonial-card">
+                "I used to think I was a Senior Engineer. Then the SnarkLintProtocol read my React components. I am now applying to culinary school."
+                <div class="testimonial-author">- Mark, Ex-Frontend Dev</div>
+            </div>
+            <div class="testimonial-card">
+                "It found my nested loops, called them a 'computational tragedy', and told me to read a book on Big O notation. I hate how right it was."
+                <div class="testimonial-author">- Sarah, Backend Engineer</div>
+            </div>
+            <div class="testimonial-card">
+                "My team replaced our morning standup with reading the roasts we got from Coding Partner. Morale is at an all-time low, but our code is flawless."
+                <div class="testimonial-author">- Tech Lead Tony</div>
+            </div>
+            <div class="testimonial-card">
+                "I pasted a snippet from StackOverflow. The Sassy Code Roaster told me to stop blindly copying code I don't understand. I felt personally attacked."
+                <div class="testimonial-author">- Junior Dev Jessica</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASSIVE FAQ -->
+    <section class="faq-section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <details>
+            <summary>What exactly is the SnarkLintProtocol?</summary>
+            <p>The SnarkLintProtocol is our exclusive, client-side evaluation engine. It parses your syntax, identifies anti-patterns, and maps them to a database of targeted critiques designed to accelerate developer competence.</p>
+        </details>
+        <details>
+            <summary>Is this a real linter?</summary>
+            <p>While traditional linters evaluate formatting syntax, the Sassy Code Roaster audits logic structure, naming ambiguity, and obsolete practices like legacy scoping.</p>
+        </details>
+        <details>
+            <summary>Will anyone see the code I submit?</summary>
+            <p>No. Processing executes entirely inside the browser's JavaScript engine. Zero code payloads are transmitted across networks or written to persistent databases.</p>
+        </details>
+        <details>
+            <summary>Why did you build dedicated standalone pages for the tools?</summary>
+            <p>Dedicated pages allow deep-linking, focused usage without distractions, and better indexing so each individual utility ranks independently on search engines.</p>
+        </details>
+        <details>
+            <summary>Why are there so many colors?</summary>
+            <p>The deep purplish dark mode with high-contrast neon accents replicates the psychological atmosphere of late-night production debugging.</p>
+        </details>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 style="color: var(--danger); font-weight: 800; font-size: 1.5rem;">Sassy Code Roaster</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">Home of the Sassy Code Roaster. We build tools that challenge your habits so your production environment doesn't have to suffer.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Direct Tools Suite</h4>
+                    <a href="#roaster">Sassy Code Roaster</a>
+                    <a href="git-excuse-generator.html">Git Excuse Generator</a>
+                    <a href="regex-destructor.html">Regex Destructor</a>
+                    <a href="div-centering-simulator.html">Div Centering Lab</a>
+                    <a href="variable-name-critic.html">Variable Name Critic</a>
+                    <a href="works-on-my-machine-cert.html">Works on My Machine Cert</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="about.html">About & Manifesto</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="disclaimer.html">Emotional Disclaimer</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 coding-partner.online. Built with the SnarkLintProtocol. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <button id="scrollBtn" title="Back to Top">↑</button>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Scroll to Top Logic
+        const scrollBtn = document.getElementById("scrollBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                scrollBtn.style.display = "flex";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        };
+
+        scrollBtn.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+
+        // Sassy Code Roaster Logic (Powered by SnarkLintProtocol)
+        function roastCode() {
+            const code = document.getElementById("codeInput").value.trim();
+            const outputBox = document.getElementById("roast-output");
+            
+            outputBox.style.animation = 'none';
+            outputBox.offsetHeight;
+            outputBox.style.animation = null; 
+
+            if (code === "") {
+                outputBox.style.display = "block";
+                outputBox.style.borderLeftColor = "var(--yellow)";
+                outputBox.innerHTML = "<strong>Error:</strong> You didn't type anything. Are you afraid of the SnarkLintProtocol?";
+                return;
+            }
+
+            let roastMessage = "";
+            outputBox.style.borderLeftColor = "var(--danger)";
+            
+            if (code.includes("var ")) {
+                roastMessage = "I see 'var' in there. What year is it? Use 'let' or 'const' before you leak bindings into outer scopes.";
+            } else if (code.includes("!important")) {
+                roastMessage = "Using '!important' proves you lost control of your cascade specificity. Fix your selectors.";
+            } else if (code.includes("console.log")) {
+                roastMessage = "Leaving 'console.log' in code? Use a structured logger or debugger breakpoints like a professional.";
+            } else if (code.includes("any") && (code.includes(":") || code.includes("interface"))) {
+                roastMessage = "Using 'any' in TypeScript completely voids type safety. You might as well write untyped scripts.";
+            } else if (code.includes("catch (e)") || code.includes("catch(e)")) {
+                roastMessage = "Swallowing exceptions silently in empty catch blocks guarantees painful debugging later.";
+            } else {
+                const genericRoasts = [
+                    "I've seen cleaner architectural layout in a bowl of ramen. Refactor this.",
+                    "The SnarkLintProtocol confirms: This compiles, but violates clean architecture standards.",
+                    "If this code snippet ran any slower, it would be going backward in time.",
+                    "A textbook example of writing code for computers instead of writing for human maintainability."
+                ];
+                roastMessage = genericRoasts[Math.floor(Math.random() * genericRoasts.length)];
+            }
+
+            outputBox.style.display = "block";
+            outputBox.innerHTML = `<strong>SnarkLintProtocol Evaluation:</strong><br><br><span style="color:var(--text-main); font-size:1.15rem;">"${roastMessage}"</span>`;
+        }
+    </script>
+</body>
+</html>
